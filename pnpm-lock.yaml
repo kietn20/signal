@@ -24,6 +24,24 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1
 
+  client:
+    dependencies:
+      '@signal/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  server:
+    dependencies:
+      '@signal/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  shared:
+    dependencies:
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+
 packages:
 
   '@eslint-community/eslint-utils@4.9.1':
@@ -404,6 +422,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+
 snapshots:
 
   '@eslint-community/eslint-utils@4.9.1(eslint@10.0.3)':
@@ -779,3 +800,5 @@ snapshots:
   word-wrap@1.2.5: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@4.3.6: {}
