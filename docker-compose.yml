@@ -1,0 +1,42 @@
+services:
+
+  # postgresql
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: signal_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"                      # host:container — exposes DB to your machine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # persist data between restarts
+      - ./server/src/db/migrations:/docker-entrypoint-initdb.d  # auto-run on first start
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # redis
+  redis:
+    image: redis:7-alpine
+    container_name: signal_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data                 # persist Redis data between restarts
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes   # AOF persistence — survives container restarts
+
+# volumes for data persistence
+volumes:
+  postgres_data:
+  redis_data:
